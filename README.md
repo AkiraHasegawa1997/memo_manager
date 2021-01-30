@@ -28,7 +28,7 @@ memo_manager <json_path> <pdf_path>
 ## Build
 
 You could build this project with cargo.
-The binary will be placed in the `memo_manager/target`.
+The binary will be placed in the `memo_manager/target/release`.
 
 ```console
 git clone https://github.com/AkiraHasegawa1997/memo_manager

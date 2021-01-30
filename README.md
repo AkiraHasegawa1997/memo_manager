@@ -7,10 +7,22 @@ Simple Memo Management Tool for a Survey of Academic Papers
 This program uses a JSON file for the management of memos.
 If the program cannot find the file, it automatically creates a new JSON
 file as a given name.
-`memo_string`, shown below, is String, for example `"Well written. Great."`.
+
+### Add memo
+
+- `pdf_path` is an academic paper for which you want to memo.
+- `memo_string` should be text, for example `"Well written. Great."`.
 
 ```console
 memo_manager <json_path> <pdf_path> <memo_string>
+```
+
+### Read memo
+
+- `pdf_path` is an academic paper for which you want to memo.
+
+```console
+memo_manager <json_path> <pdf_path>
 ```
 
 ## Build

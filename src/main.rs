@@ -24,16 +24,6 @@ fn write_json<P: AsRef<Path>>(path: P, json: Vec<Doc>) -> Result<(), Box<dyn Err
     Ok(())
 }
 
-fn get_args(idx: usize) -> String {
-    std::env::args().nth(idx).unwrap_or_else(|| {
-        println!(
-            "Usage: {} <json_path> <pdf_path> <memo_string>",
-            std::env::args().nth(0).unwrap()
-        );
-        std::process::exit(1);
-    })
-}
-
 fn add_memo(json: &mut Vec<Doc>, a_name: String, a_memo: String) {
     if json.iter().all(|x| !x.name.eq(&a_name)) {
         json.push(Doc {
@@ -45,11 +35,21 @@ fn add_memo(json: &mut Vec<Doc>, a_name: String, a_memo: String) {
     }
 }
 
-fn main() {
-    let json_path = get_args(1);
-    let pdf_path = get_args(2);
-    let memo = get_args(3);
+fn get_memo(json: &Vec<Doc>, a_name: String) -> Option<&Doc> {
+    json.iter().find(|&x| x.name.eq(&a_name))
+}
 
+fn main() {
+    use std::env;
+    let show_usage = || {
+        eprintln!(
+        "Usage \nadd: {0} <json_path> <pdf_path> <memo_string>\nread: {0} <json_path> <pdf_path>",
+        std::env::args().nth(0).unwrap()
+        );
+        std::process::exit(1);
+    };
+    let json_path = env::args().nth(1).unwrap_or_else(show_usage);
+    let pdf_path = env::args().nth(2).unwrap_or_else(show_usage);
     let pdf_file_name = Path::new(&pdf_path)
         .file_stem()
         .expect("invalid file name")
@@ -62,6 +62,12 @@ fn main() {
         Err(_) => Vec::new(),
     };
 
-    add_memo(&mut json, pdf_file_name, memo);
-    write_json(&json_path, json).expect("failed to write json");
+    if let Some(new_memo) = env::args().nth(3) {
+        add_memo(&mut json, pdf_file_name, new_memo);
+        write_json(&json_path, json).expect("failed to write json");
+    } else if let Some(existing_memo) = get_memo(&json, pdf_file_name) {
+        println!("{}", existing_memo.name)
+    } else {
+        show_usage();
+    }
 }

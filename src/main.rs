@@ -35,7 +35,7 @@ fn add_memo(json: &mut Vec<Doc>, a_name: String, a_memo: String) {
     }
 }
 
-fn get_memo(json: &Vec<Doc>, a_name: String) -> Option<&Doc> {
+fn find_doc(json: &Vec<Doc>, a_name: String) -> Option<&Doc> {
     json.iter().find(|&x| x.name.eq(&a_name))
 }
 
@@ -65,8 +65,8 @@ fn main() {
     if let Some(new_memo) = env::args().nth(3) {
         add_memo(&mut json, pdf_file_name, new_memo);
         write_json(&json_path, json).expect("failed to write json");
-    } else if let Some(existing_memo) = get_memo(&json, pdf_file_name) {
-        println!("{}", existing_memo.name)
+    } else if let Some(doc) = find_doc(&json, pdf_file_name) {
+        println!("{}", doc.memo)
     } else {
         show_usage();
     }

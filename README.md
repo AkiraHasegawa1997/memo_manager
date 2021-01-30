@@ -10,7 +10,7 @@ file as a given name.
 
 ### Add memo
 
-- `pdf_path` is an academic paper for which you want to memo.
+- `pdf_path` is an academic paper for which you want to add the memo.
 - `memo_string` should be text, for example `"Well written. Great."`.
 
 ```console
@@ -19,7 +19,7 @@ memo_manager <json_path> <pdf_path> <memo_string>
 
 ### Read memo
 
-- `pdf_path` is an academic paper for which you want to memo.
+- `pdf_path` is an academic paper for which you want to read the memo.
 
 ```console
 memo_manager <json_path> <pdf_path>
